@@ -9,8 +9,6 @@ class HomeController extends Controller
 {
     public function index(Request $request, Response $response)
     {
-        $users = $this->container['db']->table('users')->get();
-        var_dump($users);
         return 'Hello world';
     }
 }
