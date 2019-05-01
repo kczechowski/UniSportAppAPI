@@ -17,16 +17,19 @@ class UserSeeder extends AbstractSeed
     {
         $data = [
             [
-                'name' => 'xyz',
-                'password' => 'fdfsdfsd',
+                'username' => 'admin',
+                'email' => 'admin@example.com',
+                'created' => date("Y-m-d H:i:s", mktime(22, 20, 0, 4, 24, 2019))
             ],
             [
-                'name' => 'zyx',
-                'password' => 'fdfsdsd',
+                'username' => 'someuser',
+                'email' => 'someuser@example.com',
+                'created' => date("Y-m-d H:i:s", mktime(23, 30, 0, 4, 27, 2019))
             ],
             [
-                'name' => 'abc',
-                'password' => 'fdfassd',
+                'username' => 'anotheruser',
+                'email' => 'anotheruser@example.com',
+                'created' => date("Y-m-d H:i:s")
             ],
         ];
 

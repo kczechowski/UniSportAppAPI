@@ -3,7 +3,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class CreateUsersTable extends AbstractMigration
+class CreateWorkoutsTable extends AbstractMigration
 {
     /**
      * Change Method.
@@ -30,12 +30,20 @@ class CreateUsersTable extends AbstractMigration
      * Remember to call "create()" or "update()" and NOT "save()" when working
      * with the Table class.
      */
+
     public function change()
     {
-        $table = $this->table('users');
-        $table->addColumn('name', 'string', ['limit' => 30])
-            ->addColumn('password', 'string', ['limit' => 30])
-            ->addIndex(['name'], ['unique' => true])
+        $workoutsTable = $this->table('workouts');
+        $workoutsTable->addColumn('user_id', 'integer')
+            ->addForeignKey('user_id', 'users', 'id', ['delete'=> 'CASCADE', 'update'=> 'NO_ACTION'])
+            ->addColumn('start_time', 'timestamp')
+            ->addColumn('end_time', 'timestamp')
+            ->addColumn('type', 'string', ['limit' => 255])
+            ->addColumn('title', 'string', ['limit' => 255])
+            ->addColumn('message', 'string', ['limit' => 255])
+            ->addColumn('calories', 'integer')
+            ->addColumn('distance', 'integer')
+            ->addColumn('created', 'timestamp')
             ->save();
     }
 }
