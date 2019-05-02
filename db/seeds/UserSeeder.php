@@ -19,17 +19,17 @@ class UserSeeder extends AbstractSeed
             [
                 'username' => 'admin',
                 'email' => 'admin@example.com',
-                'created' => date("Y-m-d H:i:s", mktime(22, 20, 0, 4, 24, 2019))
+                'created_at' => date("Y-m-d H:i:s", mktime(22, 20, 0, 4, 24, 2019)),
             ],
             [
                 'username' => 'someuser',
                 'email' => 'someuser@example.com',
-                'created' => date("Y-m-d H:i:s", mktime(23, 30, 0, 4, 27, 2019))
+                'created_at' => date("Y-m-d H:i:s", mktime(23, 30, 0, 4, 27, 2019))
             ],
             [
                 'username' => 'anotheruser',
                 'email' => 'anotheruser@example.com',
-                'created' => date("Y-m-d H:i:s")
+                'created_at' => date("Y-m-d H:i:s")
             ],
         ];
 

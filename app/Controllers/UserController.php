@@ -10,6 +10,7 @@ namespace App\Controllers;
 
 
 use App\Services\UserService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -18,7 +19,16 @@ class UserController extends Controller
     public function getUser(Request $request, Response $response, array $args)
     {
         $id = $args['id'];
-        $user = UserService::getUserById($id);
-        return $user->toJson();
+
+        try {
+            $user = UserService::getUserById($id);
+        } catch (ModelNotFoundException $e) {
+            return $response->withStatus(404);
+        }
+
+        $data = $user->toArray();
+
+        return $response->withJson($data);
     }
+
 }

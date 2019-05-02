@@ -36,14 +36,15 @@ class CreateWorkoutsTable extends AbstractMigration
         $workoutsTable = $this->table('workouts');
         $workoutsTable->addColumn('user_id', 'integer')
             ->addForeignKey('user_id', 'users', 'id', ['delete'=> 'CASCADE', 'update'=> 'NO_ACTION'])
-            ->addColumn('start_time', 'timestamp')
-            ->addColumn('end_time', 'timestamp')
+            ->addColumn('start_time', 'datetime')
+            ->addColumn('end_time', 'datetime')
             ->addColumn('type', 'string', ['limit' => 255])
             ->addColumn('title', 'string', ['limit' => 255])
             ->addColumn('message', 'string', ['limit' => 255])
             ->addColumn('calories', 'integer')
             ->addColumn('distance', 'integer')
-            ->addColumn('created', 'timestamp')
+            ->addColumn('created_at', 'datetime')
+            ->addColumn('updated_at', 'datetime', ['null' => true])
             ->save();
     }
 }

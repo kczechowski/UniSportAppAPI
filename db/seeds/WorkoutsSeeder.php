@@ -26,7 +26,7 @@ class WorkoutsSeeder extends AbstractSeed
                 'message' => 'some message',
                 'calories' => 768,
                 'distance' => 7256,
-                'created' => date("Y-m-d H:i:s", mktime(23, 20, 0, 4, 26, 2019))
+                'created_at' => date("Y-m-d H:i:s", mktime(23, 20, 0, 4, 26, 2019))
             ],
             [
                 'user_id' => 1,
@@ -37,7 +37,7 @@ class WorkoutsSeeder extends AbstractSeed
                 'message' => 'another message',
                 'calories' => 256,
                 'distance' => 680,
-                'created' => date("Y-m-d H:i:s", mktime(8, 00, 0, 4, 28, 2019))
+                'created_at' => date("Y-m-d H:i:s", mktime(8, 00, 0, 4, 28, 2019))
             ]
         ];
 
