@@ -23,6 +23,8 @@ $app = new \Slim\App([
     ],
 ]);
 
+$app->add(new \Tuupola\Middleware\CorsMiddleware);
+
 $container = $app->getContainer();
 
 $capsule = new \Illuminate\Database\Capsule\Manager;

@@ -10,6 +10,7 @@ namespace App\Services;
 
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserService
 {
@@ -24,5 +25,11 @@ class UserService
     {
         $user = User::findOrFail($id);
         return $user;
+    }
+
+    public static function getAllUsers(): Collection
+    {
+        $users = User::all();
+        return $users;
     }
 }

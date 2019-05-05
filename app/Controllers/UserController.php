@@ -31,4 +31,11 @@ class UserController extends Controller
         return $response->withJson($data);
     }
 
+    public function getAllUsers(Request $request, Response $response)
+    {
+        $users = UserService::getAllUsers();
+        $data = $users->toArray();
+        return $response->withJson($data);
+    }
+
 }
