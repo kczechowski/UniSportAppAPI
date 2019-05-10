@@ -7,23 +7,33 @@ define('PUBLIC_PATH', __DIR__ . '/../public/');
 
 require VENDOR_PATH . 'autoload.php';
 
+$dotenv = \Dotenv\Dotenv::create(ROOT_PATH);
+$dotenv->load();
+
 $app = new \Slim\App([
     'settings' => [
         'displayErrorDetails' => true,
         'db' => [
-            'driver' => 'mysql',
-            'host' => '10.10.10.10',
-            'database' => 'dev_db',
-            'username' => 'root',
-            'password' => 'root',
-            'charset' => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix' => '',
+            'driver' => $_ENV['DB_DRIVER'],
+            'host' => $_ENV['DB_HOST'],
+            'database' => $_ENV['DB_DBNAME'],
+            'username' => $_ENV['DB_USERNAME'],
+            'password' => $_ENV['DB_PASSWORD'],
+            'charset' => $_ENV['DB_CHARSET'],
+            'collation' => $_ENV['DB_COLLATION'],
+            'prefix' => $_ENV['DB_PREFIX'],
         ]
     ],
 ]);
 
-$app->add(new \Tuupola\Middleware\CorsMiddleware);
+$app->add(new Tuupola\Middleware\CorsMiddleware([
+    "origin" => ["*"],
+    "methods" => ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    "headers.allow" => ["Content-Type"],
+    "headers.expose" => [],
+    "credentials" => false,
+    "cache" => 0,
+]));
 
 $container = $app->getContainer();
 

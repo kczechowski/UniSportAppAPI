@@ -32,4 +32,11 @@ class UserService
         $users = User::all();
         return $users;
     }
+
+    public static function createUser($username, $email){
+        $user = new User();
+        $user->username = $username;
+        $user->email = $email;
+        $user->save();
+    }
 }

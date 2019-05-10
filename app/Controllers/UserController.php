@@ -20,6 +20,8 @@ class UserController extends Controller
     {
         $id = $args['id'];
 
+        //validate
+
         try {
             $user = UserService::getUserById($id);
         } catch (ModelNotFoundException $e) {
@@ -36,6 +38,14 @@ class UserController extends Controller
         $users = UserService::getAllUsers();
         $data = $users->toArray();
         return $response->withJson($data);
+    }
+
+    public function createUser(Request $request, Response $response)
+    {
+        $params = $request->getParams();
+        //validate
+        UserService::createUser($params['username'], $params['email']);
+        return $response->withStatus(201, 'user created');
     }
 
 }
