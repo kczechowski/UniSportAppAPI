@@ -47,5 +47,7 @@ $container['db'] = function ($container) use ($capsule){
     return $capsule;
 };
 
+$authMiddleware = new \App\Utils\OAuth2Middleware();
+
 
 require APP_PATH . 'routes.php';

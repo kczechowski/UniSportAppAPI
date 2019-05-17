@@ -10,6 +10,7 @@ namespace App\Controllers;
 
 
 use App\Services\UserService;
+use App\Utils\OAuth2Middleware;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -35,6 +36,9 @@ class UserController extends Controller
 
     public function getAllUsers(Request $request, Response $response)
     {
+//        $auth = $request->getHeader('Authorization');
+//        $arr = explode(' ', $auth[0]);
+//        $token = $arr[1];
         $users = UserService::getAllUsers();
         $data = $users->toArray();
         return $response->withJson($data);
