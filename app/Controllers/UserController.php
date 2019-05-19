@@ -9,11 +9,14 @@
 namespace App\Controllers;
 
 
+use App\Services\AuthService;
 use App\Services\UserService;
 use App\Utils\OAuth2Middleware;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 class UserController extends Controller
 {
@@ -22,23 +25,30 @@ class UserController extends Controller
         $id = $args['id'];
 
         //validate
+        $token = $request->getAttribute('oauth_access_token');
 
         try {
             $user = UserService::getUserById($id);
+            // give additional info if owner
+            if (AuthService::isAccessTokenOwnedByUser($id, $token))
+                $authUser = AuthService::getOAuthUserInfo($token);
+
         } catch (ModelNotFoundException $e) {
             return $response->withStatus(404);
+        } catch (\Exception $e) {
+            return $response->withStatus(400);
         }
 
         $data = $user->toArray();
+
+        if (isset($authUser))
+            $data['oauth_info'] = $authUser;
 
         return $response->withJson($data);
     }
 
     public function getAllUsers(Request $request, Response $response)
     {
-//        $auth = $request->getHeader('Authorization');
-//        $arr = explode(' ', $auth[0]);
-//        $token = $arr[1];
         $users = UserService::getAllUsers();
         $data = $users->toArray();
         return $response->withJson($data);
@@ -47,8 +57,14 @@ class UserController extends Controller
     public function createUser(Request $request, Response $response)
     {
         $params = $request->getParams();
-        //validate
-        UserService::createUser($params['username'], $params['email']);
+
+        $token = $request->getAttribute('oauth_access_token');
+
+        try {
+            UserService::createUserWithOAuth($token, $params['username'], $request->getAttribute('oauth_client_id'));
+        }catch (\Exception $exception){
+            return $response->withStatus(400);
+        }
         return $response->withStatus(201, 'user created');
     }
 

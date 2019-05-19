@@ -17,24 +17,37 @@ class UserSeeder extends AbstractSeed
     {
         $data = [
             [
+                'id' => 1,
                 'username' => 'admin',
-                'email' => 'admin@example.com',
                 'created_at' => date("Y-m-d H:i:s", mktime(22, 20, 0, 4, 24, 2019)),
-            ],
-            [
-                'username' => 'someuser',
-                'email' => 'someuser@example.com',
-                'created_at' => date("Y-m-d H:i:s", mktime(23, 30, 0, 4, 27, 2019))
-            ],
-            [
-                'username' => 'anotheruser',
-                'email' => 'anotheruser@example.com',
-                'created_at' => date("Y-m-d H:i:s")
             ],
         ];
 
         $users = $this->table('users');
         $users->insert($data)
             ->save();
+
+        $data = [
+            [
+                'user_id' => 1,
+                'oauth_id' => 'admin',
+            ],
+        ];
+
+        $oAuthUsers = $this->table('oauth_users');
+        $oAuthUsers->insert($data)
+            ->save();
+
+//        [
+//            'id' => 1,
+//            'username' => 'someuser',
+//            'email' => 'someuser@example.com',
+//            'created_at' => date("Y-m-d H:i:s", mktime(23, 30, 0, 4, 27, 2019))
+//        ],
+//            [
+//                'username' => 'anotheruser',
+//                'email' => 'anotheruser@example.com',
+//                'created_at' => date("Y-m-d H:i:s")
+//            ],
     }
 }

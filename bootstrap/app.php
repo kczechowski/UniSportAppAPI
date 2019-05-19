@@ -1,5 +1,8 @@
 <?php
 
+use Slim\Http\Request;
+use Slim\Http\Response;
+
 define('ROOT_PATH', __DIR__ . '/../');
 define('VENDOR_PATH', __DIR__ . '/../vendor/');
 define('APP_PATH', __DIR__ . '/../app/');
@@ -28,8 +31,8 @@ $app = new \Slim\App([
 
 $app->add(new Tuupola\Middleware\CorsMiddleware([
     "origin" => ["*"],
-    "methods" => ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    "headers.allow" => ["Content-Type"],
+    "methods" => ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    "headers.allow" => ["Accept", "Content-Type", "Authorization", "Origin", "X-Requested-With"],
     "headers.expose" => [],
     "credentials" => false,
     "cache" => 0,

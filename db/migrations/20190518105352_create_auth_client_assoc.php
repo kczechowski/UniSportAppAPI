@@ -3,7 +3,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class CreateUsersTable extends AbstractMigration
+class CreateAuthClientAssoc extends AbstractMigration
 {
     /**
      * Change Method.
@@ -32,11 +32,13 @@ class CreateUsersTable extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('users');
-        $table->addColumn('username', 'string', ['limit' => 255])
-            ->addColumn('created_at', 'datetime')
-            ->addColumn('updated_at', 'datetime', ['null' => true])
-            ->addIndex(['username'], ['unique' => true])
+        $table = $this->table('oauth_users');
+        $table->addColumn('user_id', 'integer')
+            ->addColumn('oauth_id', 'string')
+            ->addForeignKey('user_id', 'users', 'id', ['delete' => 'NO_ACTION', 'update' => 'NO_ACTION'])
+            ->addIndex(['user_id'], ['unique' => true])
+            ->addIndex(['oauth_id'], ['unique' => true])
             ->save();
+
     }
 }

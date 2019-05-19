@@ -10,6 +10,7 @@ namespace App\Services;
 
 
 use App\Models\User;
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Collection;
 
 class UserService
@@ -27,16 +28,32 @@ class UserService
         return $user;
     }
 
+    public static function getUserByUsername($username): User
+    {
+        $user = User::where('username', $username)->firstOrFail();
+        return $user;
+    }
+
     public static function getAllUsers(): Collection
     {
         $users = User::all();
         return $users;
     }
 
-    public static function createUser($username, $email){
+    public static function createUser($username): User
+    {
         $user = new User();
         $user->username = $username;
-        $user->email = $email;
         $user->save();
+        return $user;
     }
+
+    public static function createUserWithOAuth($token, $username, $oauthid)
+    {
+        AuthService::verifyAccessToken($token);
+        $user = self::createUser($username);
+        AuthService::addOAuthAssoc($user->id, $oauthid);
+    }
+
+
 }

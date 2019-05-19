@@ -10,6 +10,17 @@ endomondo-clone api built on slim microframework
 * [PHP dotenv](https://github.com/vlucas/phpdotenv) - loading environmental variables
 * [cors-middleware](https://github.com/tuupola/cors-middleware) - CORS policy middleware
 
+## Endpoints
+| URL | Method | Description | Scopes |
+| --- | --- | --- | --- |
+| /token | GET | Return user's id associated with token  |
+| /api/users/ | GET | Return all users  |
+| /api/users/ | POST | Create new user  |
+| /api/users/:id | GET | Return user by id  |
+| /api/users/:id/workouts/ | GET | Return user's workouts  |
+| /api/workouts/:id | GET | Return workout by id  |
+
+
 ## Setup
 
 ```bash

@@ -61,6 +61,7 @@ class OAuth2Middleware
             throw new \Exception('Invalid scopes');
 
             return $request
+                ->withAttribute('oauth_access_token', $token)
                 ->withAttribute('oauth_access_token_id', $jwt->getClaim('jti'))
                 ->withAttribute('oauth_client_id', $jwt->getClaim('aud'))
                 ->withAttribute('oauth_user_id', $jwt->getClaim('sub'))

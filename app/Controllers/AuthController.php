@@ -16,18 +16,14 @@ use Slim\Http\Response;
 
 class AuthController extends Controller
 {
-    public function login(Request $request, Response $response)
+    public function getTokenUserID(Request $request, Response $response)
     {
-        $params = $request->getParams();
-        $scopes = array_key_exists('scope', $params) ? $params['scope'] : null;
+        $token = $request->getAttribute('oauth_access_token');
         try {
-            if (isset($scopes))
-                $token = AuthService::getAccessToken($params['username'], $params['password'], $scopes);
-            else
-                $token = AuthService::getAccessToken($params['username'], $params['password']);
-        } catch (RequestException $e) {
+            $id = AuthService::getTokenUserID($token);
+        }catch (\Exception $exception){
             return $response->withStatus(400);
         }
-        return $response->withJson($token);
+        return $response->withJson($id);
     }
 }
