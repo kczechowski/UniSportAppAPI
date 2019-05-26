@@ -20,9 +20,28 @@ class WorkoutService
         return $workout;
     }
 
-    public static function getWorkoutsByUserId($id): Collection
+    public static function createWorkout($userID, \DateTime $startTime, \DateTime $endTime, $type, $title, $message, $calories, $distance)
     {
-        $workouts = Workout::where('user_id', $id)->get();
+        $workout = new Workout();
+        $workout->user_id = $userID;
+        $workout->start_time = $startTime;
+        $workout->end_time = $endTime;
+        $workout->type = $type;
+        $workout->title = $title;
+        $workout->message = $message;
+        $workout->calories = $calories;
+        $workout->distance = $distance;
+        $workout->save();
+    }
+
+    public static function getWorkoutsByUserId($id, $page = null): Collection
+    {
+        if(!$page)
+            $workouts = Workout::where('user_id', $id)->get();
+        else
+            $workouts = Workout::where('user_id', $id)->offset(($page-1) * 2)->limit(2)->get();
         return $workouts;
     }
+
+
 }

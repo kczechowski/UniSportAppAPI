@@ -84,6 +84,17 @@ class AuthService
 
     public static function addOAuthAssoc($userID, $oauthID)
     {
+
+        $query = Capsule::table('oauth_users')
+            ->select('*')
+            ->where('oauth_users.oauth_id', $oauthID);
+
+        $result = $query->get();
+
+        if($result->count() !== 0){
+            throw new \Exception('Account already exists');
+        }
+
         Capsule::table('oauth_users')
             ->insert([
                 'user_id' => $userID,

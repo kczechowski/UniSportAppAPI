@@ -68,4 +68,17 @@ class UserController extends Controller
         return $response->withStatus(201, 'user created');
     }
 
+    public function deleteUser(Request $request, Response $response, array $args)
+    {
+
+        $id = $args['id'];
+
+        try {
+            UserService::deleteUser($id);
+        }catch (\Exception $exception){
+            return $response->withStatus(400, $exception->getMessage());
+        }
+        return $response->withStatus(200);
+    }
+
 }

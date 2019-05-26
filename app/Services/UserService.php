@@ -12,6 +12,7 @@ namespace App\Services;
 use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 class UserService
 {
@@ -53,6 +54,18 @@ class UserService
         AuthService::verifyAccessToken($token);
         $user = self::createUser($username);
         AuthService::addOAuthAssoc($user->id, $oauthid);
+    }
+
+    public static function deleteUser($userID)
+    {
+
+        $query = Capsule::table('oauth_users')
+            ->select('*')
+            ->where('oauth_users.user_id', $userID);
+
+        $query->delete();
+        User::destroy($userID);
+
     }
 
 

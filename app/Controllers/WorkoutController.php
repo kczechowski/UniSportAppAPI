@@ -31,13 +31,50 @@ class WorkoutController extends Controller
         return $response->withJson($data);
     }
 
+    public function createWorkout(Request $request, Response $response, array $args)
+    {
+        $params = $request->getParams();
+
+        $userID = $params['userID'];
+        $startTime = $params['startTime'];
+        $startTime = \DateTime::createFromFormat('U', $startTime);
+
+        $endTime = $params['endTime'];
+        $endTime = \DateTime::createFromFormat('U', $endTime);
+        $type = $params['type'];
+        $title = $params['title'];
+        $message = $params['message'];
+        $calories = $params['calories'];
+        $distance = $params['distance'];
+
+        try {
+            WorkoutService::createWorkout($userID, $startTime, $endTime, $type, $title, $message, $calories, $distance);
+        } catch (\Exception $e) {
+            return $response->withStatus(404);
+        }
+
+        return $response->withStatus(201, 'Workout created');
+    }
+
     public function getUserWorkouts(Request $request, Response $response, array $args)
     {
         $id = $args['id'];
+        $page = isset($args['page']) ? $args['page'] : null;
 
-        $workouts = WorkoutService::getWorkoutsByUserId($id);
+        if($page) {
+            $workouts = WorkoutService::getWorkoutsByUserId($id, (int)$page)->toArray();
+            $nextResult = WorkoutService::getWorkoutsByUserId($id, (int)($page+1))->toArray();
+            if(count($nextResult) === 0)
+                $data = ['workouts' => $workouts, 'hasNext' => false];
+            else
+                $data = ['workouts' => $workouts, 'hasNext' => true];
+        }
+        else {
+            $workouts = WorkoutService::getWorkoutsByUserId($id);
+            $data = ['workouts' => $workouts->toArray()];
+        }
 
-        $data = $workouts->toArray();
+
 
         return $response->withJson($data);
 
